@@ -2,31 +2,7 @@ import { useEffect, useState } from "react";
 import logo from "./logo.svg";
 
 function App() {
-  const [animals, setAnimals] = useState([]);
-
-  useEffect(() => {
-    const lastQuery = localStorage.getItem("lastQuery");
-    search(lastQuery);
-  }, []);
-
-  const search = async (q) => {
-    const response = await fetch(
-      "http://localhost:8080?" + new URLSearchParams({ q })
-    );
-    const data = await response.json();
-    setAnimals(data);
-
-    localStorage.setItem("lastQuery", q);
-  };
-
-  function Animal({ type, name, age }) {
-    return (
-      <li className="animals-info">
-        <strong>{type}</strong> {name} ({age} years old)
-      </li>
-    );
-  }
-
+  const { search, animals } = useAnimal();
   return (
     <main>
       <div className="navbar flex">
@@ -56,6 +32,38 @@ function App() {
       </div>
     </main>
   );
+}
+
+// Ui component
+function Animal({ type, name, age }) {
+  return (
+    <li className="animals-info">
+      <strong>{type}</strong> {name} ({age} years old)
+    </li>
+  );
+}
+
+// Custom Hook
+
+function useAnimal() {
+  const [animals, setAnimals] = useState([]);
+
+  useEffect(() => {
+    const lastQuery = localStorage.getItem("lastQuery");
+    search(lastQuery);
+  }, []);
+
+  const search = async (q) => {
+    const response = await fetch(
+      "http://localhost:8080?" + new URLSearchParams({ q })
+    );
+    const data = await response.json();
+    setAnimals(data);
+
+    localStorage.setItem("lastQuery", q);
+  };
+
+  return { search, animals };
 }
 
 export default App;
