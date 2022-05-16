@@ -13,6 +13,14 @@ function App() {
     setAnimals(data);
   };
 
+  function Animal({ type, name, age }) {
+    return (
+      <li>
+        <strong>{type}</strong> {name} ({age} years old)
+      </li>
+    );
+  }
+
   return (
     <main>
       <h1>Animal Farm</h1>
@@ -25,11 +33,9 @@ function App() {
       />
       <ul>
         {animals.map((animal) => (
-          <li key={animal.id}>
-            <strong>{animal.type}</strong>
-            {animal.name}
-          </li>
+          <Animal key={animal.id} {...animal} />
         ))}
+        {animals.length === 0 && "No animals found"}
       </ul>
     </main>
   );
