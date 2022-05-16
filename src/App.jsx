@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import logo from "./logo.svg";
-import "./App.css";
 
 function App() {
   const [animals, setAnimals] = useState([]);
@@ -22,7 +21,7 @@ function App() {
 
   function Animal({ type, name, age }) {
     return (
-      <li>
+      <li className="animals-info">
         <strong>{type}</strong> {name} ({age} years old)
       </li>
     );
@@ -30,20 +29,31 @@ function App() {
 
   return (
     <main>
-      <h1>Animal Farm</h1>
-      <input
-        type="text"
-        placeholder="Search"
-        onChange={(e) => {
-          search(e.target.value);
-        }}
-      />
-      <ul>
-        {animals.map((animal) => (
-          <Animal key={animal.id} {...animal} />
-        ))}
-        {animals.length === 0 && "No animals found"}
-      </ul>
+      <div className="navbar flex">
+        <h1>Animal Farm</h1>
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Contact us</li>
+        </ul>
+      </div>
+      <div className="content">
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={(e) => {
+            search(e.target.value);
+          }}
+          className="textArea"
+        />
+
+        <ul className="textItems">
+          {animals.map((animal) => (
+            <Animal key={animal.id} {...animal} />
+          ))}
+          {animals.length === 0 && "No animals found"}
+        </ul>
+      </div>
     </main>
   );
 }
